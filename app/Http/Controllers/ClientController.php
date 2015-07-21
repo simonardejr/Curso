@@ -46,9 +46,18 @@ class ClientController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update($id, \Illuminate\Http\Request $request)
     {
-        //
+        $client = \Curso\Client::find($id);
+        $client->name = $request->name;
+        $client->responsible = $request->responsible;
+        $client->email = $request->email;
+        $client->phone = $request->phone;
+        $client->address = $request->address;
+        $client->obs = $request->obs;
+
+        $client->save();
+        
     }
 
     /**
