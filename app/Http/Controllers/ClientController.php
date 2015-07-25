@@ -9,6 +9,15 @@ use Curso\Http\Controllers\Controller;
 
 class ClientController extends Controller
 {
+
+    private $repository;
+    private $service;
+
+    public function __construct(\Curso\Repositories\ClientRepository $repository, \Curso\Services\ClientService $service) {
+        $this->repository = $repository;
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +25,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return \Curso\Client::all();
+        return $this->repository->with(['projects'])->all();
     }
 
     /**
@@ -26,7 +35,7 @@ class ClientController extends Controller
      */
     public function store(\Illuminate\Http\Request $request)
     {
-        return \Curso\Client::create($request->all());
+        return $this->service->create($request->all());
     }
 
     /**
@@ -37,7 +46,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return \Curso\Client::find($id);
+        return $this->repository->with(['projects'])->find($id);
     }
 
     /**
@@ -48,16 +57,7 @@ class ClientController extends Controller
      */
     public function update($id, \Illuminate\Http\Request $request)
     {
-        $client = \Curso\Client::find($id);
-        $client->name = $request->name;
-        $client->responsible = $request->responsible;
-        $client->email = $request->email;
-        $client->phone = $request->phone;
-        $client->address = $request->address;
-        $client->obs = $request->obs;
-
-        $client->save();
-        
+        return $this->repository->update($request->all(), $id);        
     }
 
     /**
@@ -68,6 +68,6 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        \Curso\Client::find($id)->delete();
+        $this->repository->find($id)->delete();
     }
 }

@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(Curso\User::class, function (Faker\Generator $faker) {
+$factory->define(Curso\Entities\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
@@ -20,7 +20,7 @@ $factory->define(Curso\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Curso\Client::class, function (Faker\Generator $faker) {
+$factory->define(Curso\Entities\Client::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'responsible' => $faker->name,
@@ -28,5 +28,17 @@ $factory->define(Curso\Client::class, function (Faker\Generator $faker) {
         'phone' => $faker->phoneNumber,
         'address' => $faker->sentence,
         'obs' => $faker->sentence,
+    ];
+});
+
+$factory->define(Curso\Entities\Project::class, function (Faker\Generator $faker) {
+    return [
+        'owner_id' => 1,
+        'client_id' => rand(1,10),
+        'name' => $faker->name,
+        'description' => $faker->sentence,
+        'progress' => rand(1,100),
+        'status' => $faker->sentence,
+        'due_date' => $faker->date,
     ];
 });

@@ -144,6 +144,9 @@ return [
         Curso\Providers\EventServiceProvider::class,
         Curso\Providers\RouteServiceProvider::class,
 
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,
+        Curso\Providers\CursoRepositoryProvider::class,
+
     ],
 
     /*
