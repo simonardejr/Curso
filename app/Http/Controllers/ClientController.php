@@ -13,9 +13,10 @@ class ClientController extends Controller
     private $repository;
     private $service;
 
-    public function __construct(\Curso\Repositories\ClientRepository $repository, \Curso\Services\ClientService $service) {
+    public function __construct(\Curso\Repositories\ClientRepository $repository, \Curso\Services\ClientService $service, \Curso\Repositories\ProjectRepository $project_repository) {
         $this->repository = $repository;
         $this->service = $service;
+        $this->project_repository = $project_repository;
     }
 
     /**
@@ -68,6 +69,13 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
+        $user = $this->repository->find($id);
+        $projects = $this->project_repository->findWhere(['client_id'=>$user->id]);
+        if(!$projects->isEmpty()) {
+            foreach($projects as $project) {
+                $this->project_repository->find($project->id)->delete();
+            }
+        }
         $this->repository->find($id)->delete();
     }
 }
